@@ -20,6 +20,9 @@
   <div class="container">
     <h1 class="display-4">Virus más famosos</h1>
     <p class="lead">Base de datos de Virus más famosos que han atacado a los humanos en los últimos 15 años</p>
+    <hr>
+    <p id="barra"></p>
+
   </div>
 </div>
 
@@ -36,41 +39,129 @@
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-default">Url de imagen:</span>
   </div>
-  <input type="text" class="form-control" id="urlimg" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  <input type="text" class="form-control" id="urlfoto" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">        
 </div>
-
+ <img src="" alt="" id="foto" width="100px">  
 <div class="input-group mb-3">
   <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Descripción: </span>
+    <span class="input-group-text" id="inputGroup-sizing-default">Descripción:</span>
   </div>
   <input type="text" class="form-control" id="descripcion" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
+  <img src="" alt="" id="foto" width="50px">
 
+              
+</div>
 <div class="input-group mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-default">Donde surgio:</span>
   </div>
-  <input type="text" class="form-control" id="aparicion" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  <input type="text" class="form-control" id="dns" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 </div>
-
-
-<div class="btn-group" role="group" aria-label="Basic example">
-<button type="button" class="btn btn-secondary btn-lg">Nuevo</button>
-<button type="button" class="btn btn-secondary btn-lg">Editar</button>
-<button type="button" class="btn btn-secondary btn-lg">Eliminar</button>
-</div>
-<div class="btn-group" role="group" aria-label="Basic example">
-<button type="button" class="btn btn-secondary btn-lg">Primero</button>
-<button type="button" class="btn btn-secondary btn-lg">Siguiente</button>
-<button type="button" class="btn btn-secondary btn-lg">Anterior</button>
-<button type="button" class="btn btn-secondary btn-lg">Ultimo</button>
+  <button type="button" class="btn btn-primary" onclick="limpiar()">Nuevo</button>
+        <button type="button" class="btn btn-primary" onclick="Agregar()">Agregar</button>
+        <button type="button" class="btn btn-primary">Editar</button>
+        <button type="button" class="btn btn-primary" onclick="Eliminar()">Eliminar</button>
+        <button type="button" class="btn btn-primary" onclick="Primero()">Primero</button>
+        <button type="button" class="btn btn-primary" onclick="Siguiente()">Siguiente</button>
+        <button type="button" class="btn btn-primary" onclick="Anterior()">Anterior</button>
+        <button type="button" class="btn btn-primary">Ultimo</button>
 
 </div>
+ <script>
 
-</div>
+ Eliminar=function()
+{
+  virus.splice(registroactual, 1, "");
+  mostrarProducto(registroactual);
+      document.getElementById("nombre").value = "";
+    document.getElementById("urlfoto").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("dns").value = "";
+    document.getElementById("foto").value = "";
+    registroactual--;
+}
+ 
+Siguiente=function()
+{
+if(registroactual==(virus.length-1))
+alert("Compa ya esta en el ultimo producto!!");
+else
+{
+    registroactual++;
+    mostrarProducto(registroactual);
+}
+}
+
+//Pasar al anterior registro     
+Anterior=function()
+{
+if(registroactual==0)
+alert("Compa ya esta en el primer producto!!");
+else
+{
+    registroactual--;
+    mostrarProducto(registroactual);
+}
+}
+
+//Pasar al primero registro     
+Primero=function()
+{
+if(virus.length==0)
+alert("Compa no hay productos!!");
+else
+{
+    registroactual=0;
+    mostrarProducto(registroactual);
+}
+}
+
+//Mostrar el registro indicado
+mostrarProducto=function(no)
+ {
+    document.getElementById("nombre").value=virus[no].nombre; 
+    document.getElementById("urlfoto").value=virus[no].urlfoto;
+    document.getElementById("descripcion").value=virus[no].descripcion;
+    document.getElementById("dns").value=virus[no].dns;
+    document.getElementById("foto").src=virus[no].urlfoto;
+    document.getElementById("barra").innerHTML="<b>"+(registroactual+1)+" de "+virus.length  +"</b>" ;
+ }
+ Agregar=function() {
+
+  nom=document.getElementById("nombre").value; 
+  dns=document.getElementById("dns").value; 
+  ds=document.getElementById("descripcion").value; 
+  url=document.getElementById("urlfoto").value; 
+
+  virus.push({nombre:nom, dns:ds, descripcion:ds, urlfoto:url});
+  var miObjeto = { 'nombre': nombre, 'urlfoto': urlfoto, 'descripcion': descripcion, 'dns': dns };
+ AgregarLS(virus);
+}
 
 
 
+
+ AgregarLS=function(dato){
+  let datos;
+    //Toma el valor de localStorage o vacio dependiendo de si hay datos
+   // datos = Obtener();
+    //El curso seleccionado se agrega al arreglo
+   // datos.push(dato);
+    //    
+    localStorage.setItem('db'+1, JSON.stringify(dato));
+    mostrarProducto(registroactual);
+
+ }
+
+ var virus=[];
+ var registroactual=0;
+ virus.push({nombre:"Virus",dns:"su origien fue",descripcion:"Virus de ",urlfoto:"https://i2.wp.com/historiasdelahistoria.com/wordpress-2.3.1-ES-0.1-FULL/wp-content/uploads/2015/09/manzana.jpg?ssl=1"})
+
+
+ virus.push({nombre:"Virus",dns:"su origen fue de ",biografia:"virus",urlfoto:"https://img.vixdata.io/pd/jpg-large/es/sites/default/files/imj/vivirsalud/p/pi%C3%B1a1.jpg"});
+ mostrarProducto(registroactual);
+
+ </script>    
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
