@@ -1,98 +1,152 @@
-//Obtener datos de local storage
+Eliminar = function() {
+    virus.splice(registroactual, 1);
+    AgregarLS(virus);
 
- Obtener=function(dato){
-       let datoLS;
-    //comprobamos si hay algo en localStorage
-    if (localStorage.getItem('datos') === null) {
-        datoLS = [];
-
-    } else {
-        datoLS = JSON.parse(localStorage.getItem('datos'));
-    }
-
-    return datoLS;
- }
- Agregar=function(id){
-       
-     const nombre = document.getElementById('nombre').value;
-     const urlfoto = document.getElementById('urlfoto').value;
-     const descripcion = document.getElementById('descripcion').value;
-     const dns = document.getElementById('dns').value;
-
-var miObjeto = { 'nombre': nombre, 'urlfoto': urlfoto, 'descripcion': descripcion, 'dns': dns };
-
-AgregarLS(miObjeto,0);
- }
-
- AgregarLS=function(dato,id){
-  let datos;
-    //Toma el valor de localStorage o vacio dependiendo de si hay datos
-   // datos = Obtener();
-    //El curso seleccionado se agrega al arreglo
-   // datos.push(dato);
-    //    
-    localStorage.setItem('datos'+1, JSON.stringify(dato));
-
- }
-//Pasar al siguiente registro     Siguiente=function()
-{
-if(registroactual==(productos.length-1))
-alert("Este es el ultimo dato");
-else
-{
-    registroactual++;
-    mostrarProducto(registroactual);
-}
-}
-
-//Pasar al anterior registro     
-Anterior=function()
-{
-if(registroactual==0)
-alert("Este es el primer dato");
-else
-{
     registroactual--;
-    mostrarProducto(registroactual);
+    mostrar(registroactual);
+
+
 }
+Limpiar = function() {
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("urlfoto").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("dns").value = "";
+    document.getElementById("foto").value = "";
+
+    document.getElementById("buscar").value = "";
+
+
+}
+Siguiente = function() {
+    if (registroactual == (virus.length - 1))
+        alert("Compa ya esta en el ultimo producto!!");
+    else {
+        registroactual++;
+        mostrar(registroactual);
+    }
+}
+Ultimo = function() {
+
+    registroactual = virus.length - 1;
+    mostrar(registroactual);
+
+}
+
+Primero = function() {
+
+        registroactual = 0;
+        mostrar(registroactual);
+
+    }
+    //Pasar al anterior registro     
+Anterior = function() {
+    if (registroactual == 0)
+        alert("Compa ya esta en el primer producto!!");
+    else {
+        registroactual--;
+        mostrar(registroactual);
+    }
 }
 
 //Pasar al primero registro     
-Primero=function()
-{
-if(productos.length==0)
-alert("Ya no hay mas datos");
-else
-{
-    registroactual=0;
-    mostrarProducto(registroactual);
-}
+Primero = function() {
+    if (virus.length == 0)
+        alert("Compa no hay productos!!");
+    else {
+        registroactual = 0;
+        mostrar(registroactual);
+    }
 }
 
 //Mostrar el registro indicado
-mostrarProducto=function(no)
- {
-    document.getElementById("nombre").value=localStorage.key(0).nombre; 
-    document.getElementById("descripcion").value=localStorage.getItem('datos'+0).descripcion;
-    document.getElementById("dns").value=localStorage.getItem('datos'+0).dnds;
+mostrar = function(no) {
+    document.getElementById("nombre").value = getVirus()[no].name;
+    document.getElementById("urlfoto").value = getVirus()[no].name;
+    document.getElementById("descripcion").value = getVirus()[no].name;
+    document.getElementById("dns").value = getVirus()[no].name;
+    document.getElementById("foto").src = getVirus()[no].name;
+    document.getElementById("barra").innerHTML = "<b>" + (registroactual + 1) + " de " + getVirus().length + "</b>";
+}
+Agregar = function() {
+    nom = document.getElementById("nombre").value;
+    url = document.getElementById("urlfoto").value;
+    ds = document.getElementById("descripcion").value;
+    dns = document.getElementById("dns").value;
 
-    document.getElementById("urlfoto").value=localStorage.getItem('datos'+0).urlfoto;
-    document.getElementById("foto").src=localStorage.getItem('datos'+0).urlfoto;
-    document.getElementById("barra").innerHTML="<b>"+(registroactual+1)+" de "+productos.length + " productos" +"</b>" ;
+    var newVirus = {
+        id: virus.length,
+        name: nom,
+        urlfoto: url,
+        descripcion: ds,
+        dondesurgio: dns
 
-    if (localStorage.getItem('datos') === null) {
-    
+    }
+    console.log(newVirus);
+    virus.push(newVirus);
+    AgregarLS(virus);
+}
+Editar = function() {
 
-    } else {
+    nom = document.getElementById("nombre").value;
+    url = document.getElementById("urlfoto").value;
+    ds = document.getElementById("descripcion").value;
+    dns = document.getElementById("dns").value;
+
+
+    virus[registroactual] = { id: registroactual, name: nom, urlfoto: url, descripcion: ds, dondesurgio: dns };
+
+    AgregarLS(virus);
+
+
+    alert('Editado');
+
+
+}
+
+Buscar = function() {
+    nom = document.getElementById("nombre").value;
+    url = document.getElementById("urlfoto").value;
+    ds = document.getElementById("descripcion").value;
+    dns = document.getElementById("dns").value;
+    nom = document.getElementById("nombre").value;
+    url = document.getElementById("urlfoto").value;
+    ds = document.getElementById("descripcion").value;
+    buscar = document.getElementById("buscar").value;
+
+    for (value in virus) {
+
+
+        if (getVirus()[value].name == buscar) {
+            alert(`Fue encontrado ${buscar} en la posicion ${parseInt(value)+1}`);
+            mostrar(value);
+
+
+
+        }
 
     }
 
+}
 
- }
+AgregarLS = function(dato) {
 
- var productos=[];
- var registroactual=0;
+    localStorage.setItem('db', JSON.stringify(dato));
 
- mostrarProducto(registroactual);
+}
+getVirus = function() {
+    var storedList = localStorage.getItem('db');
+    if (storedList == null) {
+        virus = [];
+    } else {
+        virus = JSON.parse(storedList);
+    }
 
- </script>   
+    return virus;
+}
+var virus = [];
+var registroactual = 0;
+
+console.log(getVirus().length);
+mostrar(registroactual);
