@@ -63,10 +63,10 @@ Primero = function() {
 //Mostrar el registro indicado
 mostrar = function(no) {
     document.getElementById("nombre").value = getVirus()[no].name;
-    document.getElementById("urlfoto").value = getVirus()[no].name;
-    document.getElementById("descripcion").value = getVirus()[no].name;
-    document.getElementById("dns").value = getVirus()[no].name;
-    document.getElementById("foto").src = getVirus()[no].name;
+    document.getElementById("urlfoto").value = getVirus()[no].urlfoto;
+    document.getElementById("descripcion").value = getVirus()[no].descripcion;
+    document.getElementById("dns").value = getVirus()[no].dondesurgio;
+    document.getElementById("foto").src = getVirus()[no].urlfoto;
     document.getElementById("barra").innerHTML = "<b>" + (registroactual + 1) + " de " + getVirus().length + "</b>";
 }
 Agregar = function() {
@@ -114,19 +114,61 @@ Buscar = function() {
     url = document.getElementById("urlfoto").value;
     ds = document.getElementById("descripcion").value;
     buscar = document.getElementById("buscar").value;
+    var buscarSelect = document.getElementById("buscarSelect").value;
+    alert(buscarSelect);
+    let contador = 0;
 
     for (value in virus) {
-
-
-        if (getVirus()[value].name == buscar) {
+        if (getVirus()[value].buscarSelect == buscar) {
             alert(`Fue encontrado ${buscar} en la posicion ${parseInt(value)+1}`);
             mostrar(value);
-
-
-
-        }
-
+        } else {}
     }
+
+    switch (buscarSelect) {
+        case 'name':
+            for (value in virus) {
+                if (getVirus()[value].name === buscar) {
+                    alert(`Fue encontrado ${buscar} en la posicion ${parseInt(value)+1}`);
+                    mostrar(value);
+                }
+            }
+            break;
+        case 'urlfoto':
+            for (value in virus) {
+                if (getVirus()[value].urlfoto == buscar) {
+                    alert(`Fue encontrado ${buscar} en la posicion ${parseInt(value)+1}`);
+                    mostrar(value);
+                } else {}
+            }
+
+            break;
+        case 'descripcion':
+            for (value in virus) {
+                if (getVirus()[value].descripcion === buscar) {
+                    alert(`Fue encontrado ${buscar} en la posicion ${parseInt(value)+1}`);
+                    mostrar(value);
+                }
+            }
+            break;
+        case 'dondesurgio':
+            for (value in virus) {
+                if (getVirus()[value].dondesurgio === buscar) {
+                    alert(`Fue encontrado ${buscar} en la posicion ${parseInt(value)+1}`);
+                    mostrar(value);
+                } else {
+                    contador++;
+
+
+                }
+            }
+            (contador >= getVirus().length) ? alert('No se encuentra'): console.log('Si se encontro');
+            break;
+
+        default:
+            alert('Todavia no selecciona el tema a buscar');
+    }
+
 
 }
 
